@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    <title>author_list</title>
+{% endblock title %}
+
+{% block info %}
+    <h3>authors</h3>
+{% endblock info %}
+
+{% block con %}
+    <a href="{% url 'use1:add_author' %}" class="btn btn-info">创建</a>
+    <table class="table table-bordered table-hover table-responsive table-striped">
+        <thead>
+            <tr>
+                <th>序号</th>
+                <th>ID</th>
+                <th>姓名</th>
+                <th>年龄</th>
+                <th>地址</th>
+                <th>修改操作</th>
+                <th>删除操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for author in current_page_data %}
+                <tr>
+                    <td>{{ forloop.counter|add:seque }}</td>
+                    <td>{{ author.detail_id }}</td>
+                    <td><a href="/book_list/{{ author.id }}/author/">{{ author.name }}</a></td>
+                    <td>{{ author.detail__age}}</td>
+                    <td>{{ author.detail__addr }}</td>
+                    <td><a href="/update_author/{{ author.id }}/" class="btn btn-success">修改</a> </td>
+                    <td><button class="btn btn-dange my-delete">删除</button> </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock con %}

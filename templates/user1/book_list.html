@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    <title>book_list</title>
+{% endblock title %}
+
+{% block info %}
+    <h2>books</h2>
+{% endblock info %}
+
+{% block con %}
+{#    这里使用了自定义的过滤器#}
+    {% load my_tag_filter %}
+    <a href="{{ path|path_filter }}" class="btn btn-info">创建</a>
+    <table class="table table-bordered table-hover table-responsive table-striped">
+        <thead>
+            <tr>
+                <th>序号</th>
+                <th>ID</th>
+                <th>名称</th>
+                <th>价格</th>
+                <th>出版社</th>
+                <th>出版日期</th>
+                <th>修改操作</th>
+                <th>删除操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for book in current_page_data %}
+                <tr>
+                    <td>{{ forloop.counter|add:seque }}</td>
+                    <td>{{ book.id }}</td>
+                    <td>{{ book.title }}</td>
+                    <td>{{ book.price }}</td>
+                    <td>{{ book.publisher__name }}</td>
+                    <td>{{ book.publish_date|date:'Y-m-d' }}</td>
+{#                    <td><a href="/update_book/{{ book.id }}/" class="btn btn-success"></a> </td>#}
+                    <td><a href="{{ path|update_path:book.id }}/" class="btn btn-success"></a> </td>
+                    <td><button class="btn btn-danger my-delete">删除</button> </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock con %}

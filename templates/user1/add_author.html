@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    <title>add_author</title>
+{% endblock title %}
+
+{% block leftlist %}
+{% endblock leftlist %}
+
+{% block info %}
+    <h3>add_author</h3>
+{% endblock info %}
+
+{% block con %}
+    <form action="" method="post" novalidate autocomplete="off">
+        {% csrf_token %}
+        {% for field in author_form %}
+            <p>
+                <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                {{ field }}
+                <span class="my-error-span">{{ field.errors.0 }}</span>
+            </p>
+        {% endfor %}
+
+        <input class="pull-right btn btn-success" type="submit">
+    </form>
+{% endblock con %}

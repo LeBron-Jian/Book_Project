@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    <title>login</title>
+{% endblock %}
+
+{% block leftlist %}
+    <div class="row">
+        <ul class="nav nav-pills nav-stacked my-left-con">
+            <li role="presentation" class="active"><a href="{% url 'user1:login' %}">登录</a> </li>
+            <li role="presentation" ><a href="{% url 'user1:register' %}">注册</a> </li>
+        </ul>
+    </div>
+{% endblock leftlist %}
+
+{% block info %}
+    <h3>欢迎来到</h3>
+    <h3>图书管理系统</h3>
+{% endblock %}
+
+{% block cancel %}
+
+{% endblock cancel %}
+
+{% block con %}
+    <form action="" method="post" autocomplete="off" novalidate>
+        {% csrf_token %}
+        {% for field in login_form %}
+            <p>
+                <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                {{ field }}
+                <span class="my-error-span">{{ field.errors.0 }}</span>
+            </p>
+        {% endfor %}
+        <span class="my-error-span">{{ error_msg }}</span>
+        <input class="pull-right btn btn-success" type="submit">
+    </form>
+{% endblock con %}
+
+{% block script %}
+    <script type="text/javascript">
+        $(function () {
+            //页码不显示
+            $('.my-page').css('display', 'none')
+        })
+    </script>
+{% endblock %}

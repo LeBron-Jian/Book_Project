@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    <title>add_book</title>
+{% endblock title %}
+
+{% block leftlist %}
+
+{% endblock leftlist %}
+
+{% block info %}
+    <h3>add_book</h3>
+{% endblock info %}
+
+{% block con %}
+    <form action="" method="post" novalidate autocomplete="off">
+        {% csrf_token %}
+        {% for field in book_form %}
+            <p>
+                <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                {{ field }}
+                <span class="my-error-span">{{ field.errors.0 }}</span>
+            </p>
+        {% endfor %}
+
+        <p>
+            {% load my_tag_filter %}
+            <input type="hidden" id="hid_publisher_id" value="{{ current_publisher_id }}">
+            <label for="id_publisher">出版社</label>
+            <select name="publisher" id="id_publisher" class="form-control">
+                {% for option in publisher %}
+{#                    后来传过来的current_publisher_id|id_filter#}
+                    {% if option.id == current_publisher_id|id_filter %}
+                        <option selected value="{{ option.id }}">{{ option.name }}</option>
+                    {% else %}
+                        <option value="{{ option.id }}">{{ option.name }}</option>
+                    {% endif %}
+                {% endfor %}
+            </select>
+        </p>
+
+        <p>
+            <label for="publish_date">出版日期</label>
+            <input class="form-control" type="date" name="publish_date" id="publish_date">
+        </p>
+
+        <input class="pull-right btn btn-success" type="submit">
+    </form>
+{% endblock con %}
+
+{% block script %}
+    {{ block.super }}
+    <script type="text/javascript">
+        $(function () {
+            //默认显示当前时间
+            var date = new Date();
+            var dataString = date.getFullYear()+"-"+num(date.getMonth()+1)+"-"+num(date.getDate());
+            $("$publish_date").val(dataString);
+
+            // 有具体的某一个publisher时，下拉框不可选
+            if(Number($('#hid_publisher_id').val()) >0){
+                $("select[name=publisher]").attr('disabled', 'disabled');
+            }
+        });
+        {#格式必须是 yyyy-MM-dd#}
+        function num(obj) {
+            if(obj < 10){
+                return '0'+String(obj)
+            }else{
+                return obj
+            }
+        }
+    </script>
+{% endblock script %}
